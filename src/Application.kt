@@ -26,12 +26,12 @@ fun Application.module(testing: Boolean = false) {
     routing{
         this.get("/ClaimService/add"){
             println("HTTP message is GET method with /get")
-            val id : String? = call.request.queryParameters["id"] //UUID.randomUUID()
+           // val id : String? = call.request.queryParameters["id"] //UUID.randomUUID()
             val title : String? = call.request.queryParameters["title"]
             val date : String?= call.request.queryParameters["date"]
-            val isSolved : String? = call.request.queryParameters["isSolved"]
+            //val isSolved : String? = call.request.queryParameters["isSolved"]
 
-            val response = String.format("ID is ${id}, title is ${title}, date is ${date}, isSolved is ${isSolved}", id, title, date, isSolved)
+            val response = String.format("ID is being generated, title is ${title}, date is ${date}, isSolved is being generated", title, date/*,id, isSolved*/)
             //
             val cObj = Claim(title, date)
             val dao = ClaimDao().addClaim(cObj)
