@@ -36,7 +36,6 @@ fun Application.module(testing: Boolean = false) {
             println(str)
             var cObj = Gson().fromJson<Claim>(str, Claim::class.java)
             val dao = ClaimDao().addClaim(cObj)
-            println(cObj);
 
            // println("HTTP message is using POST method with /post ${contType} ${str}")
             call.respondText("The POST request was successfully processed. ",
@@ -46,7 +45,7 @@ fun Application.module(testing: Boolean = false) {
         this.get("ClaimService/getAll") {
             val cList = ClaimDao().getAll()
             println("The number of claims: ${cList.size}")
-            println(cList)
+            // println(cList)
             // JSON Serialization/Deserialization
             val respJsonStr = Gson().toJson(cList)
             call.respondText(respJsonStr, status = HttpStatusCode.OK, contentType = ContentType.Application.Json)
