@@ -22,9 +22,8 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 fun Application.module(testing: Boolean = false) {
     // extension
     // @annotation
-    // routing constructor takes only one parameter which is a lambda function
     routing {
-        this.post("/ClaimService/post") {
+        this.post("/ClaimService/add") {
             val contType = call.request.contentType()
             val data = call.request.receiveChannel()
             val dataLength = data.availableForRead
@@ -33,7 +32,6 @@ fun Application.module(testing: Boolean = false) {
             val str = String(output)
 
             // Json deserialization
-            println(str)
             var cObj = Gson().fromJson<Claim>(str, Claim::class.java)
             val dao = ClaimDao().addClaim(cObj)
 
@@ -45,7 +43,6 @@ fun Application.module(testing: Boolean = false) {
         this.get("ClaimService/getAll") {
             val cList = ClaimDao().getAll()
             println("The number of claims: ${cList.size}")
-            // println(cList)
             // JSON Serialization/Deserialization
             val respJsonStr = Gson().toJson(cList)
             call.respondText(respJsonStr, status = HttpStatusCode.OK, contentType = ContentType.Application.Json)
