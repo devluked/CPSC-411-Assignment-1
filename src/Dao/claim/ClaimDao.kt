@@ -11,7 +11,7 @@ class ClaimDao : Dao() {
         val conn = Database.getInstance()?.getDbConnection()
 
         // 2. prepare the sql statement
-        sqlStmt = "insert into claim (id, title, date, isSolved) values ('${cObj.id}', '${cObj.title}', '${cObj.date}', '${cObj.isSolved}')"
+        sqlStmt = "insert into claim (id, title, date, isSolved) values ('${UUID.randomUUID()}', '${cObj.title}', '${cObj.date}', '${false}')"
 
         // 3. submit the sql statement
         conn?.exec(sqlStmt)

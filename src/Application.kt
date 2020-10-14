@@ -23,32 +23,8 @@ fun Application.module(testing: Boolean = false) {
     // extension
     // @annotation
     // routing constructor takes only one parameter which is a lambda function
-    routing{
-        this.get("/ClaimService/add"){
-            println("HTTP message is GET method with /get")
-           // val id : String? = call.request.queryParameters["id"] //UUID.randomUUID()
-            val title : String? = call.request.queryParameters["title"]
-            val date : String?= call.request.queryParameters["date"]
-            //val isSolved : String? = call.request.queryParameters["isSolved"]
-
-            val response = String.format("ID is being generated, title is ${title}, date is ${date}, isSolved is being generated", title, date/*,id, isSolved*/)
-            //
-            val cObj = Claim(title, date)
-            val dao = ClaimDao().addClaim(cObj)
-            //val dbObj = Database.getInstance()
-            call.respondText(response, status= HttpStatusCode.OK, contentType= ContentType.Text.Plain)
-            // http://localhost:8080/get?FirstName=Luke&LastName=Duggans
-        }
-        get("ClaimService/getAll") {
-            val cList = ClaimDao().getAll()
-            println("The number of claims: ${cList.size}")
-            println(cList)
-            // JSON Serialization/Deserialization
-            val respJsonStr = Gson().toJson(cList)
-            call.respondText(respJsonStr, status= HttpStatusCode.OK, contentType= ContentType.Application.Json)
-        }
-
-        this.post("/ClaimService/adc"){
+    routing {
+        this.post("/ClaimService/post") {
             val contType = call.request.contentType()
             val data = call.request.receiveChannel()
             val dataLength = data.availableForRead
@@ -56,13 +32,27 @@ fun Application.module(testing: Boolean = false) {
             data.readAvailable(output)
             val str = String(output)
 
-            // JSON serialization/deserialization
-            // GSON
+            // Json deserialization
+            println(str)
+            var cObj = Gson().fromJson<Claim>(str, Claim::class.java)
+            val dao = ClaimDao().addClaim(cObj)
+            println(cObj);
 
-            println("HTTP message is using POST method with /post ${contType} ${str}")
-            call.respondText("The POST request was successfully processed. ")
+           // println("HTTP message is using POST method with /post ${contType} ${str}")
+            call.respondText("The POST request was successfully processed. ",
+                    status = HttpStatusCode.OK, contentType = ContentType.Text.Plain)
+        }
+
+        this.get("ClaimService/getAll") {
+            val cList = ClaimDao().getAll()
+            println("The number of claims: ${cList.size}")
+            println(cList)
+            // JSON Serialization/Deserialization
+            val respJsonStr = Gson().toJson(cList)
+            call.respondText(respJsonStr, status = HttpStatusCode.OK, contentType = ContentType.Application.Json)
         }
     }
+
 
 }
 
