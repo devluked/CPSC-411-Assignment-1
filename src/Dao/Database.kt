@@ -7,7 +7,7 @@ class Database constructor (var dbName : String = "") {
 
     init {
         // Create the database, create tables and keeps the db connection
-        dbName = "C:\\Users\\luked\\desktop\\assignment1.db"
+        dbName = "C:\\Users\\luked\\desktop\\claims.db"
         val dbConn = SQLiteConnection(File(dbName))
         dbConn.open()
         val sqlStmt = "create table if not exists claim (id text, title text, date text, isSolved text)"
