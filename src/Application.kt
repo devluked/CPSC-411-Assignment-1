@@ -35,7 +35,7 @@ fun Application.module(testing: Boolean = false) {
             var cObj = Gson().fromJson<Claim>(str, Claim::class.java)
             val dao = ClaimDao().addClaim(cObj)
 
-           // println("HTTP message is using POST method with /post ${contType} ${str}")
+            // println("HTTP message is using POST method with /post ${contType} ${str}")
             call.respondText("The POST request was successfully processed. ",
                     status = HttpStatusCode.OK, contentType = ContentType.Text.Plain)
         }
@@ -51,4 +51,3 @@ fun Application.module(testing: Boolean = false) {
 
 
 }
-
